@@ -1,0 +1,95 @@
+.app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ---------- floating trip panel ---------- */
+.panel-shell {
+  position: absolute;
+  z-index: var(--z-map-ui);
+  top: 16px;
+  left: 16px;
+  bottom: 16px;
+  width: var(--panel-width);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-3);
+  overflow: hidden;
+}
+.panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+  color: #fff;
+}
+.panel-head h1 {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.panel-head .hint {
+  margin-top: 2px;
+  color: #b7c6ee;
+}
+.panel-head .btn.ghost {
+  color: #dbe5ff;
+}
+.panel-head .btn.ghost:hover:not(:disabled) {
+  background: rgb(255 255 255 / 0.14);
+  color: #fff;
+}
+.head-actions {
+  display: flex;
+  gap: 2px;
+  flex: none;
+}
+.panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  padding: var(--s-4);
+  background: var(--surface);
+  overscroll-behavior: contain;
+}
+.panel-body * {
+  min-width: 0;
+}
+.panel-open {
+  position: absolute;
+  z-index: var(--z-map-ui);
+  top: 16px;
+  left: 16px;
+  box-shadow: var(--shadow-2);
+}
+.foot {
+  margin-top: auto;
+  font-size: 11.5px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 860px) {
+  .panel-shell {
+    top: auto;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    width: auto;
+    height: 48vh;
+  }
+  .panel-open {
+    top: auto;
+    bottom: 8px;
+    left: 8px;
+  }
+}

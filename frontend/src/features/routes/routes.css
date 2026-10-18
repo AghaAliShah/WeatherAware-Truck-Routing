@@ -1,0 +1,362 @@
+/* ---------- recommendation ---------- */
+.recommendation {
+  padding: var(--s-4);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--teal-soft), var(--accent-soft));
+  border: 1px solid color-mix(in srgb, var(--teal) 30%, var(--surface));
+  border-left: 4px solid var(--teal);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+.recommendation.blocked {
+  background: var(--risk-3-soft);
+  border-color: color-mix(in srgb, var(--risk-3) 35%, var(--surface));
+}
+.eyebrow {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0a7f72;
+}
+.blocked .eyebrow {
+  color: var(--risk-3);
+}
+.rationale {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.why summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: var(--s-2);
+}
+.why .hint {
+  margin-bottom: var(--s-2);
+}
+.note {
+  color: var(--ink-2);
+}
+
+.compare {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.compare th,
+.compare td {
+  padding: 6px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.compare thead th {
+  font-size: 11.5px;
+  color: var(--ink-3);
+}
+.compare thead th.win {
+  color: var(--accent);
+}
+.compare tbody th {
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.compare td.best {
+  font-weight: 700;
+  color: var(--risk-0);
+}
+.compare tr.decides {
+  background: var(--accent-soft);
+}
+.compare .tag {
+  margin-left: 6px;
+}
+.compare .dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid var(--border-strong);
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.tag.good {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #fff;
+}
+
+/* ---------- route cards ---------- */
+.route-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+.route-card {
+  --route: var(--accent);
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--route);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  transition: box-shadow 0.15s var(--ease), border-color 0.15s;
+}
+.route-card:hover {
+  box-shadow: var(--shadow-2);
+}
+.route-card.selected {
+  border-color: var(--route);
+  background: color-mix(in srgb, var(--route) 5%, var(--surface));
+  box-shadow: 0 0 0 1px var(--route), var(--shadow-2);
+}
+.route-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+.route-name {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-weight: 700;
+  font-size: 15px;
+}
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--route);
+}
+.route-worst {
+  margin-left: auto;
+}
+.route-via {
+  margin: 4px 0 var(--s-3);
+  font-size: 12.5px;
+  color: var(--ink-3);
+  overflow-wrap: anywhere;
+}
+.route-stats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: var(--s-2);
+  margin: 0;
+}
+.route-stats dt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.route-stats dd {
+  margin: 0;
+  font-weight: 650;
+}
+.strip {
+  display: flex;
+  height: 8px;
+  margin: var(--s-3) 0 var(--s-2);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--border);
+}
+.strip span {
+  display: block;
+  height: 100%;
+  transition: background 0.25s var(--ease);
+}
+.metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.metric {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--surface-sunken);
+  color: var(--ink-3);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.metric b {
+  color: var(--ink);
+  font-weight: 650;
+}
+.metric.hit {
+  background: color-mix(in srgb, var(--lvl) 12%, var(--surface));
+  color: var(--lvl);
+}
+.metric.hit b {
+  color: inherit;
+}
+
+.route-detail {
+  margin-top: var(--s-3);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--border);
+}
+.profile {
+  margin: 0;
+}
+.profile figcaption {
+  min-height: 2.8em;
+  font-size: 12.5px;
+  margin-bottom: 4px;
+}
+.profile svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  cursor: crosshair;
+  touch-action: pan-y;
+}
+.profile .grid {
+  stroke: var(--border);
+  stroke-dasharray: 2 3;
+}
+.profile .cursor {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+.profile .axis {
+  font-size: 8.5px;
+  fill: var(--ink-3);
+}
+.profile rect {
+  transition: opacity 0.1s, fill 0.25s;
+}
+.cp-table {
+  margin-top: var(--s-3);
+  font-size: 12.5px;
+}
+.cp-table summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 600;
+}
+.table-wrap {
+  max-height: 220px;
+  overflow: auto;
+  margin-top: var(--s-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.cp-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.cp-table th,
+.cp-table td {
+  padding: 4px 8px;
+  text-align: left;
+  white-space: nowrap;
+}
+.cp-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--surface-sunken);
+  font-size: 11px;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--border);
+}
+.cp-table tbody tr {
+  cursor: pointer;
+}
+.cp-table tbody tr:hover,
+.cp-table tbody tr.active {
+  background: var(--accent-soft);
+}
+
+/* ---------- panel states ---------- */
+.panel-state {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+.phases {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: var(--ink-3);
+}
+.phases li {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+.phases li.now {
+  color: var(--ink);
+  font-weight: 600;
+}
+.phases li.done {
+  color: var(--risk-0);
+}
+.phase-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.skeleton-card {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: var(--s-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.empty-state h2 {
+  font-size: 16px;
+}
+.empty-state ul {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--ink-2);
+}
+.error-state {
+  padding: var(--s-4);
+  border: 1px solid color-mix(in srgb, var(--risk-3) 40%, var(--surface));
+  border-radius: var(--radius);
+  background: var(--risk-3-soft);
+  align-items: flex-start;
+}
+.error-state h2 {
+  font-size: 15px;
+  color: var(--risk-3);
+}
+.error-state p {
+  overflow-wrap: anywhere;
+}

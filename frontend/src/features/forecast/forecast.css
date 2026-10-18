@@ -1,0 +1,253 @@
+.forecast-bar {
+  position: absolute;
+  z-index: var(--z-map-ui);
+  left: calc(var(--panel-offset, 0px) + 16px);
+  right: 16px;
+  bottom: 24px;
+  max-width: 660px;
+  margin-inline: auto;
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  border-top: 3px solid var(--teal);
+  box-shadow: var(--shadow-3);
+  transition: left 0.25s var(--ease);
+}
+.fb-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px var(--s-3);
+  flex-wrap: wrap;
+  min-height: 28px;
+}
+.fb-when {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px var(--s-2);
+}
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.toggle input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+}
+.fb-slider {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--s-3);
+  align-items: center;
+  margin-top: var(--s-2);
+}
+.play {
+  min-width: 56px;
+}
+.fb-track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 30px;
+}
+.fb-peaks {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 6px;
+  border-radius: 3px;
+  opacity: 0.9;
+}
+.fb-track input[type='range'] {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  background: transparent;
+  accent-color: var(--accent);
+}
+.fb-ticks {
+  display: flex;
+  justify-content: space-between;
+  margin: -2px 62px 0 74px;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.fb-foot {
+  margin-top: var(--s-2);
+  padding-top: var(--s-2);
+  border-top: 1px solid var(--border);
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px var(--s-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+/* ---------- checkpoint detail ---------- */
+.cp-detail {
+  position: absolute;
+  z-index: var(--z-map-ui);
+  top: 16px;
+  right: 16px;
+  width: 316px;
+  max-height: calc(100% - 200px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--route, var(--accent));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-3);
+  animation: slide-in 0.22s var(--ease);
+}
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}
+.cp-detail header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--s-2);
+}
+.cp-detail h2 {
+  font-size: 22px;
+  line-height: 1.15;
+}
+.cp-detail .eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.cond {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.cond th,
+.cond td {
+  padding: 6px 4px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.cond thead th {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+.cond tbody th {
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.drivers {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  color: var(--ink-2);
+  font-size: 13px;
+}
+.mini-timeline {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  height: 54px;
+  margin-top: 6px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  overflow: hidden;
+}
+.mini-timeline span {
+  display: block;
+  flex: none;
+  border-radius: 1px 1px 0 0;
+}
+.mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-1px);
+}
+.mark-eta {
+  background: var(--accent);
+}
+.mark-now {
+  background: var(--ink);
+}
+.mini-legend {
+  display: flex;
+  gap: var(--s-3);
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: var(--ink-3);
+}
+.mini-legend i {
+  display: inline-block;
+  width: 10px;
+  height: 3px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.mark-eta-swatch {
+  background: var(--accent);
+}
+.mark-now-swatch {
+  background: var(--ink);
+}
+
+@media (max-width: 860px) {
+  /* Phone layout: forecast bar docks to the top, trip panel is a bottom sheet, detail card overlays the sheet. */
+  .forecast-bar {
+    left: 8px;
+    right: 8px;
+    top: 8px;
+    bottom: auto;
+    padding: var(--s-2) var(--s-3);
+  }
+  .fb-ticks,
+  .legend {
+    display: none;
+  }
+  .fb-foot {
+    border-top: 0;
+    margin-top: 2px;
+    padding-top: 0;
+  }
+  .cp-detail {
+    top: auto;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    width: auto;
+    max-height: 62vh;
+    z-index: calc(var(--z-map-ui) + 1);
+  }
+}
