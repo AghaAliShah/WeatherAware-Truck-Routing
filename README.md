@@ -57,7 +57,7 @@ independently built services on a shared domain. `vercel.json` is the whole conf
 ```
 
 * **`web`**: the Vite/React app, built to static files and served from Vercel's CDN.
-* **`api`**: the Django app. Vercel detects `manage.py`, reads `WSGI_APPLICATION` from the settings and runs it as a
+* **`api`**: the Django app. Vercel runs `config.wsgi:application` (set as the service `entrypoint`, which Vercel requires) as a
   single Python Vercel Function ([Django on Vercel](https://vercel.com/docs/frameworks/full-stack/django)).
   The Python version comes from `backend/.python-version` and dependencies from `backend/requirements.txt`.
 
