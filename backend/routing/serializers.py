@@ -54,7 +54,7 @@ class HeatmapSerializer(serializers.Serializer):
 
 
 class GeocodeQuerySerializer(serializers.Serializer):
-    q = serializers.CharField(min_length=3, max_length=200)
+    q = serializers.CharField(min_length=2, max_length=200)
 
 
 # Experiments the client may report on. New experiments must be registered here, which keeps the

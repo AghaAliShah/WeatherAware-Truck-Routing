@@ -25,6 +25,12 @@ if DEBUG:
 for _var in ("RENDER_EXTERNAL_HOSTNAME", "SPACE_HOST"):
     if os.environ.get(_var):
         ALLOWED_HOSTS.append(os.environ[_var])
+# Vercel: production alias, per-branch and per-deployment hostnames, plus the shared suffix.
+for _var in ("VERCEL_URL", "VERCEL_BRANCH_URL", "VERCEL_PROJECT_PRODUCTION_URL"):
+    if os.environ.get(_var):
+        ALLOWED_HOSTS.append(os.environ[_var])
+if os.environ.get("VERCEL"):
+    ALLOWED_HOSTS.append(".vercel.app")
 if os.environ.get("SPACE_ID"):  # Hugging Face: also serve the huggingface.co embed and *.hf.space
     ALLOWED_HOSTS += [".hf.space", "huggingface.co"]
 
@@ -84,7 +90,8 @@ if not DEBUG:
     SECURE_REFERRER_POLICY = "same-origin"
 
 # --- Experimentation ---------------------------------------------------------
-TELEMETRY_DIR = os.environ.get("TELEMETRY_DIR", str(BASE_DIR / "var"))
+# Serverless filesystems are read-only except /tmp (telemetry is also written to stdout logs).
+TELEMETRY_DIR = os.environ.get("TELEMETRY_DIR", "/tmp/telemetry" if os.environ.get("VERCEL") else str(BASE_DIR / "var"))
 SHADOW_ENABLED = env_bool("SHADOW_ENABLED", True)
 EVENTS_ENABLED = env_bool("EVENTS_ENABLED", True)
 

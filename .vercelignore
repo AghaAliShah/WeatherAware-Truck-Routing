@@ -1,0 +1,9 @@
+backend/.venv
+backend/var
+backend/static_frontend
+frontend/node_modules
+frontend/dist
+loadtests
+tools
+Dockerfile
+render.yaml

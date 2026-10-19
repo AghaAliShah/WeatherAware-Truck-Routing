@@ -1,14 +1,3 @@
----
-title: Weather-Aware Truck Routing
-emoji: 🚚
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-app_port: 7860
-pinned: false
-short_description: Pick the safest truck route by forecast weather at your ETA
----
-
 # Weather-Aware Truck Routing
 
 A React + Django app that helps a truck driver pick the safest route for a trip, based on forecast
@@ -52,24 +41,23 @@ npm run dev                                             # http://localhost:5173 
 Tests: `cd backend && DJANGO_DEBUG=1 python manage.py test routing` (risk table, load rules, ETA/weather
 alignment, mile attribution, ranking, geometry).
 
-## Deploy to Hugging Face Spaces (free, Docker)
+## Deploy to Vercel (free, no Docker)
 
-The repo is Space-ready: the README front matter declares `sdk: docker` / `app_port: 7860`, and the
-`Dockerfile` builds the React app and serves it with Django behind gunicorn on port 7860 (non-root, uid 1000).
-No secrets are required (the app is stateless; an ephemeral Django key is generated at boot).
+The React app is built to static files and served from Vercel's CDN; Django runs as one Python function
+(`api/index.py`) behind a rewrite of `/api/*` (see `vercel.json`).
 
-```bash
-# 1. Create a Space at https://huggingface.co/new-space  (SDK: Docker, blank template)
-# 2. Push this repo to it
-git remote add space https://huggingface.co/spaces/<user>/<space-name>
-git push space main
-```
+1. Push the repo to GitHub.
+2. In Vercel: **Add New → Project → import the repo**. Leave the root directory as the repo root and the
+   framework as *Other*; `vercel.json` already sets the install/build commands and the output directory.
+3. Deploy. No environment variables are required (an ephemeral Django key is generated at boot). Optional:
+   `OSRM_BASE_URL`, `CONTACT_EMAIL`, `API_THROTTLE_PLAN`, `SHADOW_ENABLED`, `EVENTS_ENABLED`.
 
-The app is then live at `https://<user>-<space-name>.hf.space` (open that URL directly for the bare app).
-Free Spaces sleep after inactivity; the first request wakes them. Optional Space *variables*:
-`OSRM_BASE_URL` (a faster routing backend), `CONTACT_EMAIL`, `API_THROTTLE_PLAN`, `SHADOW_ENABLED`, `EVENTS_ENABLED`.
-Other hosts work with the same image (`docker build -t truck-routing . && docker run -p 7860:7860 truck-routing`);
-`render.yaml` is a ready Render blueprint.
+Notes for serverless: the plan endpoint is long-running (it waits on routing and weather APIs), so the
+function is configured with `maxDuration: 60`; if your Vercel plan caps functions lower, raise the plan or
+host the API elsewhere. In-memory caches and throttles are per function instance and reset on cold starts,
+and telemetry files go to `/tmp` (the same records are also written to the function logs).
+The same code also runs anywhere Docker does: `docker build -t truck-routing . && docker run -p 7860:7860 truck-routing`
+(`render.yaml` is a ready Render blueprint).
 
 ## Pre-deployment testing
 
