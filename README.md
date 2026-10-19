@@ -43,19 +43,38 @@ alignment, mile attribution, ranking, geometry).
 
 ## Deploy to Vercel (free, no Docker)
 
-The React app is built to static files and served from Vercel's CDN; Django runs as one Python function
-(`api/index.py`) behind a rewrite of `/api/*` (see `vercel.json`).
+Uses [Vercel Services](https://vercel.com/docs/services) (Beta, available on all plans): one project, two
+independently built services on a shared domain. `vercel.json` is the whole configuration:
 
-1. Push the repo to GitHub.
-2. In Vercel: **Add New → Project → import the repo**. Leave the root directory as the repo root and the
-   framework as *Other*; `vercel.json` already sets the install/build commands and the output directory.
-3. Deploy. No environment variables are required (an ephemeral Django key is generated at boot). Optional:
-   `OSRM_BASE_URL`, `CONTACT_EMAIL`, `API_THROTTLE_PLAN`, `SHADOW_ENABLED`, `EVENTS_ENABLED`.
+```json
+{
+  "services": { "web": { "root": "frontend/" }, "api": { "root": "backend/" } },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": { "service": "api" } },
+    { "source": "/(.*)", "destination": { "service": "web" } }
+  ]
+}
+```
 
-Notes for serverless: the plan endpoint is long-running (it waits on routing and weather APIs), so the
-function is configured with `maxDuration: 60`; if your Vercel plan caps functions lower, raise the plan or
-host the API elsewhere. In-memory caches and throttles are per function instance and reset on cold starts,
-and telemetry files go to `/tmp` (the same records are also written to the function logs).
+* **`web`**: the Vite/React app, built to static files and served from Vercel's CDN.
+* **`api`**: the Django app. Vercel detects `manage.py`, reads `WSGI_APPLICATION` from the settings and runs it as a
+  single Python Vercel Function ([Django on Vercel](https://vercel.com/docs/frameworks/full-stack/django)).
+  The Python version comes from `backend/.python-version` and dependencies from `backend/requirements.txt`.
+
+Steps: push to GitHub, then in Vercel choose **Add New → Project**, import the repo, leave the root directory as
+the repo root, and deploy. No environment variables are required (an ephemeral Django key is generated at boot).
+Optional: `OSRM_BASE_URL`, `CONTACT_EMAIL`, `API_THROTTLE_PLAN`, `SHADOW_ENABLED`, `EVENTS_ENABLED`.
+
+What the Vercel docs say about the points that mattered for this app (checked against the docs, not yet against a live deploy):
+
+* **Request path:** a service receives the *original* path, so `GET /api/plan/` reaches Django as `/api/plan/` and
+  `backend/routing/urls.py` needs no changes ([Services routing](https://vercel.com/docs/services/routing)).
+* **Duration:** with Fluid compute (on by default) a Hobby function runs up to 300 s, which covers the slowest plan
+  requests (about 60 s when the public routing server is slow) ([Limits](https://vercel.com/docs/functions/limitations)).
+* **Payload limit:** 4.5 MB per request or response; a plan response is about 55 kB.
+* **Filesystem:** read-only except `/tmp`, so telemetry files go to `/tmp` (the same records are in the function logs).
+* **Caveats:** Services is a Beta feature. Caches and throttles live in each function instance and reset on cold starts.
+
 The same code also runs anywhere Docker does: `docker build -t truck-routing . && docker run -p 7860:7860 truck-routing`
 (`render.yaml` is a ready Render blueprint).
 

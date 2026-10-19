@@ -1,4 +1,0 @@
-Django==6.1.2
-djangorestframework==3.18.3
-requests==2.34.2
-whitenoise==6.12.0
